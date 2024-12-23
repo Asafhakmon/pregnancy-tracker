@@ -9,7 +9,7 @@ const specialGuidelines = [
 const tests = [
     // First Trimester (Weeks 1–13)
     { weeks: [6, 7, 8], test: "אולטרסאונד ראשוני ודופק העובר", description: "לאישור ההריון, בדיקת דופק והערכת מיקום ההריון" },
-    { weeks: [6, 7, 8], test: "מעקב מיילדת", description: "" },
+    { weeks: [6], test: "מעקב מיילדת", description: "" },
     { weeks: [12], test: "בדיקות דם ראשוניות", description: "ספירת דם, סוג דם ו-Rh, בדיקות סוכר, נוגדנים למחלות (CMV, טוקסופלזמה, אדמת, HIV ועוד)" },
     { weeks: [11, 12, 13], test: "בדיקת שקיפות עורפית", description: "להערכת הסיכון לתסמונת דאון בשילוב עם בדיקת דם" },
     { weeks: [12, 13, 14], test: "מעקב מיילדת", description: "" },
@@ -57,47 +57,48 @@ function calculatePregnancyWeek(lmpDate) {
     const diffInDays = Math.floor((today - lmp) / (1000 * 60 * 60 * 24));
     return Math.floor(diffInDays / 7) + 1; // Add 1 for the starting week
 }
-function generateCalendar(currentWeek, lmpDate) {
+function generateTestTable(lmpDate) {
     const calendarDiv = document.getElementById("calendar");
     calendarDiv.innerHTML = ""; // Clear previous content
 
-    for (let week = 1; week <= 40; week++) {
-        const weekDiv = document.createElement("div");
-        weekDiv.classList.add("week");
+    // Create table
+    const table = document.createElement("table");
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>שם הבדיקה</th>
+                <th>תיאור</th>
+                <th>שבועות רלוונטיים</th>
+                <th>טווח תאריכים</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
 
-        // Get the date range for this week
-        const { start, end } = getWeekDates(lmpDate, week);
+    // Populate table rows with tests
+    tests.forEach(test => {
+        const firstWeek = Math.min(...test.weeks);
+        const lastWeek = Math.max(...test.weeks);
 
-        // Set text content with week and dates
-        weekDiv.innerHTML = `
-            <div>שבוע ${week}</div>
-            <div>${start} - ${end}</div>
+        const { start, end } = getWeekDates(lmpDate, firstWeek);
+        const lastEndDate = getWeekDates(lmpDate, lastWeek).end;
+
+        const weeksRange = test.weeks.join(", ");
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${test.test}</td>
+            <td>${test.description || "אין מידע נוסף"}</td>
+            <td>${weeksRange}</td>
+            <td>${start} - ${lastEndDate}</td>
         `;
+        tbody.appendChild(row);
+    });
 
-        // Highlight the current week
-        if (week === currentWeek) {
-            weekDiv.classList.add("highlight");
-        }
-
-        // Add all tests for this week
-        const weekTests = tests.filter(t => t.weeks.includes(week));
-        if (weekTests.length > 0) {
-            weekTests.forEach(test => {
-                const testDiv = document.createElement("div");
-                testDiv.innerHTML = `
-                    <strong>${test.test}</strong><br>
-                    <small>${test.description}</small>
-                `;
-                weekDiv.appendChild(testDiv);
-            });
-        }
-
-        calendarDiv.appendChild(weekDiv);
-    }
+    // Append the table to the calendarDiv
+    calendarDiv.appendChild(table);
 }
-
-
-
 
 document.getElementById("calculate").addEventListener("click", () => {
     const lmpDate = document.getElementById("lmp").value;
@@ -108,8 +109,11 @@ document.getElementById("calculate").addEventListener("click", () => {
 
     const currentWeek = calculatePregnancyWeek(lmpDate);
     document.getElementById("result").textContent = `את בשבוע ${currentWeek}`;
-    generateCalendar(currentWeek, lmpDate);
+    generateTestTable(lmpDate);
 });
+
+
+
 
 
 
