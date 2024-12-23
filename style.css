@@ -6,26 +6,41 @@ body {
     text-align: center;
     direction: rtl; /* Hebrew is right-to-left */
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 /* Container styling */
 .container {
     max-width: 600px;
-    margin: auto;
+    width: 90%; /* Use 90% of the viewport for smaller screens */
+    margin: 20px auto;
     padding: 20px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading styling */
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-top: 20px;
+}
+
 /* Input and button styling */
 input, button {
     width: 100%;
     margin-top: 10px;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
@@ -33,7 +48,12 @@ button {
     background-color: #007BFF;
     color: white;
     border: none;
-    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 /* Calendar grid styling */
@@ -45,11 +65,17 @@ button {
 }
 
 .week {
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
+    background-color: #fdfdfd;
+    transition: transform 0.3s ease;
+}
+
+.week:hover {
+    transform: scale(1.05);
 }
 
 .week.highlight {
@@ -57,52 +83,47 @@ button {
     font-weight: bold;
 }
 
-.week strong {
-    color: #333;
-    font-size: 14px;
-}
-
-.week small {
-    display: block;
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
-}
-
-/* Media query for smaller devices */
+/* Media query for tablets (max-width: 768px) */
 @media (max-width: 768px) {
     .container {
-        max-width: 100%; /* Full width for smaller screens */
-        padding: 10px;
+        max-width: 100%;
+        padding: 15px;
     }
 
-    input, button {
-        font-size: 14px;
-        padding: 8px;
+    h1 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 16px;
     }
 
     .calendar {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller devices */
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on tablets */
     }
 
     .week {
-        font-size: 14px;
-        padding: 10px;
+        font-size: 13px;
     }
 }
 
+/* Media query for mobile devices (max-width: 480px) */
 @media (max-width: 480px) {
     h1 {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 14px;
     }
 
     input, button {
-        font-size: 12px;
-        padding: 6px;
+        font-size: 14px;
+        padding: 10px;
     }
 
     .calendar {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on very small devices */
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller phones */
     }
 
     .week {
