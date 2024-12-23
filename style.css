@@ -1,3 +1,4 @@
+/* General body styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
@@ -8,6 +9,7 @@ body {
     padding: 20px;
 }
 
+/* Container styling */
 .container {
     max-width: 600px;
     margin: auto;
@@ -17,10 +19,13 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Input and button styling */
 input, button {
+    width: 100%;
     margin-top: 10px;
     padding: 10px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 button {
@@ -31,9 +36,10 @@ button {
     border-radius: 5px;
 }
 
+/* Calendar grid styling */
 .calendar {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    grid-template-columns: repeat(5, 1fr); /* Default: 5 columns */
     gap: 10px;
     margin-top: 20px;
 }
@@ -43,18 +49,14 @@ button {
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
-    line-height: 1.6; /* Improve spacing between lines */
-    font-size: 16px; /* Slightly larger text */
-}
-
-.week div {
-    margin-bottom: 5px; /* Add spacing between elements */
+    font-size: 16px;
 }
 
 .week.highlight {
     background-color: #ffeb3b;
     font-weight: bold;
 }
+
 .week strong {
     color: #333;
     font-size: 14px;
@@ -67,7 +69,44 @@ button {
     margin-top: 5px;
 }
 
-.week div + div {
-    margin-top: 10px; /* Add spacing between tests in the same week */
+/* Media query for smaller devices */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%; /* Full width for smaller screens */
+        padding: 10px;
+    }
+
+    input, button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .calendar {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller devices */
+    }
+
+    .week {
+        font-size: 14px;
+        padding: 10px;
+    }
 }
 
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    input, button {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .calendar {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on very small devices */
+    }
+
+    .week {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
